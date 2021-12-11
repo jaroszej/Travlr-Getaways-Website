@@ -1,6 +1,16 @@
+var fs = require('fs');
+
+/*
+Warning: Reading a JSON file every time a request is processed by the web server is not
+best practice. This is a quick and dirty technique during development to aid in rapid
+prototyping.
+*/
+
+var trips = JSON.parse(fs.readFileSync('./data/trips.json', 'utf8'));
+
 /* GET travel view */
 const travel = (req, res) => {
-    res.render('travel', {title: 'Travlr Getaways'});
+    res.render('travel', {title: 'Travlr Getaways', trips});
 };
 
 module.exports = {
