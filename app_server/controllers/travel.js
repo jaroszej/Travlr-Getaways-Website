@@ -1,18 +1,51 @@
-var fs = require('fs');
+const request = require('request');
+const apiOptions = { 
+    server: 'http://localhost:3000' 
+};
 
-/*
-Warning: Reading a JSON file every time a request is processed by the web server is not
-best practice. This is a quick and dirty technique during development to aid in rapid
-prototyping.
-*/
+/* internal method to render the travel list */
+const renderTravelList = (req, res, responseBody) => {
+    let message = null;
+    pageTitle = process.env.npm_package_description + ' - Travel';
+    if (!(responseBody instanceof Array)) {
+        message = 'API lookup error';
+        responseBody = [];
+    } else {
+        if (!responseBody.length) {
+            message = 'No trips exist in our database!';
+        }
+    }
+    res.render('travel', 
+        { 
+        title : pageTitle,
+        trips : responseBody,
+        message
+        }
+    );
+};
 
-var trips = JSON.parse(fs.readFileSync('./data/trips.json', 'utf8'));
+/* GET travel list view */
+const travelList = (req, res) => {
+    const path = '/api/trips';
+    const requestOptions = {
+        url : `${apiOptions.server}${path}`,
+        method : 'GET',
+        json : {},
+    };
 
-/* GET travel view */
-const travel = (req, res) => {
-    res.render('travel', {title: 'Travlr Getaways', trips});
+    console.info('>> travelController.travelList calling ' + requestOptions.url);
+
+    request(
+        requestOptions,
+        (err, { statusCode }, body) => {
+            if (err) {
+                console.error(err);
+            }
+            renderTravelList(req, res, body);
+        }
+    );
 };
 
 module.exports = {
-    travel
+    travelList
 };
