@@ -8,7 +8,7 @@ Angular.js SPA with Node.js/Express and MongoDB backend (MEAN stack application)
 ### Compare and contrast the types of frontend development you used in your full stack project, including Express HTML, JavaScript, and the single-page application (SPA).
 Why did the backend use a NoSQL MongoDB database?
 
-
+This project is comprised of the MEAN stack, including MongoDB, Express.JS, Angular.JS, and Node.JS. There were two types of frontends built, one utilizing Express, HTML, and JavaScript, and one using Angular to build a single-paged application (SPA).
 
 
 ## Functionality
